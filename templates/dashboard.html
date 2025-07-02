@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h2>Price, Profit & Loss Calculator</h2>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="product_name" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="product_name" name="product_name" required>
+            </div>
+            <div class="mb-3">
+                <label for="cost_price" class="form-label">Cost Price</label>
+                <input type="number" step="0.01" class="form-control" id="cost_price" name="cost_price" required>
+            </div>
+            <div class="mb-3">
+                <label for="selling_price" class="form-label">Selling Price</label>
+                <input type="number" step="0.01" class="form-control" id="selling_price" name="selling_price" required>
+            </div>
+            <div class="mb-3">
+                <label for="currency" class="form-label">Currency</label>
+                <select class="form-select" id="currency" name="currency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="NGN">NGN</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Calculate & Save</button>
+        </form>
+        <hr>
+        <h3>Previous Calculations</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Product</th>
+                    <th>Cost Price</th>
+                    <th>Selling Price</th>
+                    <th>Profit</th>
+                    <th>Loss</th>
+                    <th>Currency</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for calc in calculations %}
+                <tr>
+                    <td>{{ calc.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ calc.product_name }}</td>
+                    <td>{{ calc.cost_price }}</td>
+                    <td>{{ calc.selling_price }}</td>
+                    <td>{{ calc.profit }}</td>
+                    <td>{{ calc.loss }}</td>
+                    <td>{{ calc.currency }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %} 

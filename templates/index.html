@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in forwards;
+}
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+.currency-img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+    transition: transform 0.3s;
+}
+.currency-img.selected {
+    transform: scale(1.15);
+    box-shadow: 0 0 10px #007bff44;
+}
+.currency-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    scroll-behavior: smooth;
+    animation: slideIn 1.2s cubic-bezier(.68,-0.55,.27,1.55);
+}
+@keyframes slideIn {
+    from { transform: translateX(-100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+.currency-label {
+    font-size: 0.9rem;
+    color: #333;
+    margin-top: 0.2rem;
+}
+</style>
+<div class="text-center mt-5 fade-in">
+    {% if current_user.is_authenticated %}
+        {% set currency = current_user.preferred_currency %}
+        <div class="currency-scroll justify-content-center">
+            <div>
+                <img src="https://flagcdn.com/us.svg" alt="USD" class="currency-img{% if currency == 'USD' %} selected{% endif %}">
+                <div class="currency-label">USD</div>
+            </div>
+            <div>
+                <img src="https://flagcdn.com/eu.svg" alt="EUR" class="currency-img{% if currency == 'EUR' %} selected{% endif %}">
+                <div class="currency-label">EUR</div>
+            </div>
+            <div>
+                <img src="https://flagcdn.com/gb.svg" alt="GBP" class="currency-img{% if currency == 'GBP' %} selected{% endif %}">
+                <div class="currency-label">GBP</div>
+            </div>
+            <div>
+                <img src="https://flagcdn.com/ng.svg" alt="NGN" class="currency-img{% if currency == 'NGN' %} selected{% endif %}">
+                <div class="currency-label">NGN</div>
+            </div>
+            <div>
+                <img src="https://flagcdn.com/jp.svg" alt="JPY" class="currency-img{% if currency == 'JPY' %} selected{% endif %}">
+                <div class="currency-label">JPY</div>
+            </div>
+            <div>
+                <img src="https://flagcdn.com/in.svg" alt="INR" class="currency-img{% if currency == 'INR' %} selected{% endif %}">
+                <div class="currency-label">INR</div>
+            </div>
+            <div>
+                <svg class="currency-img{% if currency == 'BTC' %} selected{% endif %}" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="32" cy="32" r="32" fill="#f7931a"/>
+                    <text x="32" y="44" text-anchor="middle" font-size="32" fill="#fff" font-family="Arial">&#8383;</text>
+                </svg>
+                <div class="currency-label">BTC</div>
+            </div>
+        </div>
+    {% endif %}
+    <h1>Welcome to Pricensy!</h1>
+    <p class="lead">Your tool for price, profit, and loss calculations.</p>
+    <div class="mt-4">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('dashboard') }}" class="btn btn-success btn-lg m-2">Go to Dashboard</a>
+            <a href="{{ url_for('report') }}" class="btn btn-primary btn-lg m-2">View Reports</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-lg m-2">Logout</a>
+        {% else %}
+            <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg m-2">Register</a>
+            <a href="{{ url_for('login') }}" class="btn btn-success btn-lg m-2">Login</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 
